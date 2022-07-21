@@ -2,6 +2,8 @@ package com.lq.bank.model;
 
 public class Customer {
 	
+	private int id;
+	
 	private String name;
 	
 	private String family;
@@ -10,20 +12,31 @@ public class Customer {
 	
 	private Branch branch;
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public Customer(int id, String name, String family, int age, Branch branch) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.family = family;
+		this.age = age;
+		this.branch = branch;
+	}
+
 	public Customer(String name, String family, int age, Branch branch) {
 		super();
 		this.name = name;
 		this.family = family;
 		this.age = age;
 		this.branch = branch;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

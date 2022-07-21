@@ -5,30 +5,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.lq.bank.enums.AccountType;
+import com.lq.bank.model.Account;
+import com.lq.bank.model.Branch;
+import com.lq.bank.model.Customer;
 
 @Service
 public class CustomerService {
+
+	@Autowired
+	private AccountService accountService;
+
+	public Map buildCustomerInfoMap(Customer customer) {
+
+		Map<String, Object> customerInfo = new HashMap();
+		customerInfo.put("name", customer.getName());
+		customerInfo.put("family", customer.getFamily());
+		customerInfo.put("age", customer.getAge());
+		customerInfo.put("customerId", customer.getId());
+
+		return customerInfo;
+	}
 
 	public List<Map> getAllCustomers() {
 
 		List<Map> customersList = new ArrayList<Map>();
 
-		Map<String, Object> r1 = new HashMap();
-		r1.put("name", "John");
-		r1.put("family", "Doe");
-		r1.put("age", 15);
+		Branch branchB = new Branch(2, "Branch B");
 
-		Map<String, Object> r2 = new HashMap();
-		r2.put("name", "Jane");
-		r2.put("family", "Doe");
-		r2.put("age", 35);
+		Customer c1 = new Customer(1, "John", "Sheppard", 42, branchB);
+		Customer c2 = new Customer(2, "Jason", "Momoa", 48, branchB);
 
-		customersList.add(r1);
-		customersList.add(r2);
+		customersList.add(buildCustomerInfoMap(c1));
+		customersList.add(buildCustomerInfoMap(c2));
 
 		return customersList;
-
 	}
 
 	public List<Map> getAllAccounts() {
@@ -37,25 +51,12 @@ public class CustomerService {
 
 		Map<String, Object> accountInfo = new HashMap<String, Object>();
 
-		accountInfo.put("accountId", 10);
-		accountInfo.put("type", 1);
-		accountInfo.put("balance", 1500.98);
-		accountInfo.put("customerId", 1);
-		accountInfo.put("label", "Checking 1");
-		accountInfo.put("branchId", 850);
+		Branch branchA = new Branch(1, "Branch A");
+		Customer c1 = new Customer("Rodney", "Mckay", 10, branchA);
 
-		accountList.add(accountInfo);
+		Account ac_1 = new Account(1, "Ch 1", AccountType.SAVINGS, branchA, c1);
 
-		Map<String, Object> accountInfo_2 = new HashMap<String, Object>();
-
-		accountInfo_2.put("accountId", 16);
-		accountInfo_2.put("type", 2);
-		accountInfo_2.put("balance", 68000.51);
-		accountInfo_2.put("customerId", 2);
-		accountInfo_2.put("label", "Saving 1");
-		accountInfo_2.put("branchId", 150);
-
-		accountList.add(accountInfo_2);
+		accountList.add(accountService.buildAccountInfo(ac_1));
 
 		return accountList;
 	}
@@ -63,13 +64,10 @@ public class CustomerService {
 	public List<Map> getCustomerInfo() {
 		List<Map> customersList = new ArrayList<Map>();
 
-		Map<String, Object> r1 = new HashMap();
-		r1.put("name", "John");
-		r1.put("family", "Doe");
-		r1.put("age", 15);
-		r1.put("id", 1);
+		Branch branchB = new Branch(2, "Branch B");
+		Customer customer = new Customer(1, "John", "Sheppard", 42, branchB);
 
-		customersList.add(r1);
+		customersList.add( buildCustomerInfoMap(customer) );
 
 		return customersList;
 
