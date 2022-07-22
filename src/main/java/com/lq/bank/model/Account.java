@@ -1,23 +1,57 @@
 package com.lq.bank.model;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.lq.bank.enums.AccountType;
 
+@Entity
+@Table
 public class Account {
 	
+	@Id
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private int id;
 	
+	@Column
 	private String label;
 
-	private AccountType type;
 	
+	private AccountType type;	
+	
+	@ManyToOne
+	@JoinColumn( name="branch_id" )
 	private Branch branch;
 	
-	private Customer customer;
+	
+	@ManyToOne
+	@JoinColumn( name="customer_id" )
+	private Customer customer;	
 	
 	
-	public Account(int id, String label, AccountType type, Branch branch, Customer customer) {
+	@OneToMany( mappedBy = "account" )
+	private List<Transaction> transactions;
+	
+	
+	
+	
+	
+
+	public Account() {
 		super();
-		this.id = id;
+	}
+
+	public Account(String label, AccountType type, Branch branch, Customer customer) {
+		super();
 		this.label = label;
 		this.type = type;
 		this.branch = branch;

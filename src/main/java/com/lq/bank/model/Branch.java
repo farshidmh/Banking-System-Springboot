@@ -1,10 +1,13 @@
 package com.lq.bank.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +21,12 @@ public class Branch {
 	@Column
 	private String branchName;
 
+	
+	@OneToMany( mappedBy = "branch" )
+	private List<Customer> customers;
+	
+	@OneToMany( mappedBy = "branch" )
+	private List<Account> accounts;
 	
 	
 	public Branch() {
